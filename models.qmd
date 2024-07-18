@@ -1,0 +1,17 @@
+---
+title: "Models"
+author: "Sophia Yao"
+format: html
+execute:
+  echo:
+    false
+---
+
+```{r}
+#| label: setup
+#| message: FALSE
+
+library(tidyverse)
+```
+
+Using data from a YouGov poll of 1,559 US adult citizens, conducted March 10 - 12, 2024, we seek to understand what proportion of voters will support Biden in the 2024 election. One problem we may have is we don't know yet where the votes were polled in, as to have an accurate result, we need to make sure the data is representative of the entire population.
