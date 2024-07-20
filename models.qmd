@@ -12,6 +12,43 @@ execute:
 #| message: FALSE
 
 library(tidyverse)
+library(brms)
+library(tidybayes)
+library(gtsummary)
+```
+
+```{r}
+#| label: model
+#| cache: true
+
+fit_bern <- brm(
+  formula = biden ~ 1,
+  data = poll_data,
+  family = bernoulli(),
+  refresh = 0,
+  silent = 2,
+  seed = 9)
+```
+
+```{r}
+#| label: plot
+fit_bern |>
+  add_epred_draws(ndata) |>
+  select(.epred) |>
+  ggplot(aes(x = .epred)) +
+  geom_density(y = after_stat(count/sum(count))) +
+  scale_x_continuous(labels = scales::percent_format()) + 
+  scale_y_continuous(labels = scales::percent_format()) +
+  labs(title = "Posterior Distribution for p",
+  subtitle = "There is a 95% chance for a value between XX and XX",
+  x = "Proportion, p, of Red beads in the Urn",
+  y = "Probability")
+```
+
 ```
 
 Using data from a YouGov poll of 1,559 US adult citizens, conducted March 10 - 12, 2024, we seek to understand what proportion of voters will support Biden in the 2024 election. One problem we may have is we don't know yet where the votes were polled in, as to have an accurate result, we need to make sure the data is representative of the entire population.
+
+$$ 
+biden_i =  \mu + \epsilon_i 
+$$
